@@ -13,6 +13,7 @@ public:
 	Sup(Sup *parent = nullptr);
 	virtual ~Sup();
 
+	inline Sup *parent() {return _parent;};
 	template <typename T>
 	auto findChild(std::optional<std::string> name = std::nullopt, bool recursive = true) -> T* {
 		for (auto c : _children) {

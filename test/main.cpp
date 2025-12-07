@@ -30,6 +30,9 @@ TEST_CASE ("Basic", "[sup]") {
     new HelloWorld(&app);
 
     REQUIRE(app.findChild<HelloWorld>()->hello() == "hello world");
+
+    REQUIRE(app.parent() == nullptr);
+    REQUIRE(app.findChild<HelloWorld>()->parent() == &app);
 }
 
 TEST_CASE("Recursive", "[recursive]") {
