@@ -30,6 +30,10 @@ TEST_CASE ("Basic", "[sup]") {
     new HelloWorld(&app);
 
     REQUIRE(app.findChild<HelloWorld>()->hello() == "hello world");
+    REQUIRE(app.children().size() == 1);
+    REQUIRE(app.children<FooBar>().size() == 0);
+    new Named(new FooBar(&app));
+    REQUIRE(app.children(true).size() == 3);
 
     REQUIRE(app.parent() == nullptr);
     REQUIRE(app.findChild<HelloWorld>()->parent() == &app);

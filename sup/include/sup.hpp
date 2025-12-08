@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <optional>
+#include <algorithm>
 
 class Sup {
 	Sup *_parent;
@@ -14,16 +15,26 @@ public:
 	virtual ~Sup();
 
 	inline Sup *parent() {return _parent;};
-	template <typename T>
-	auto findChild(std::optional<std::string> name = std::nullopt, bool recursive = true) -> T* {
-		for (auto c : _children) {
+
+	template <typename T = Sup>
+	auto children(bool recursive = false) -> std::vector<T*> {
+		std::vector<T*> result;
+		for(auto c : _children) {
 			auto r = dynamic_cast<T*>(c);
-			if(r && (!(name || c->name()) || name == c->name())) return r;
+			if(r) result.push_back(r);
 			if(recursive) {
-				r = c->findChild<T>(name, recursive);
-				if(r) return r;
+				auto ch = c->children<T>(recursive);
+				result.insert(result.end(), ch.begin(), ch.end());
 			}
 		}
+		return result;
+	}
+
+	template <typename T>
+	auto findChild(std::optional<std::string> name = std::nullopt, bool recursive = true) -> T* {
+		auto ch = children<T>(recursive);
+		auto el = std::find_if(ch.begin(), ch.end(), [name](auto c) {return !(name || c->name()) || name == c->name();});
+		if(el != ch.end()) return *el;
 		return nullptr;
 	}
 };

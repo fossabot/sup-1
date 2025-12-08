@@ -9,6 +9,7 @@ sup_test_deps = [
 
 test_exe = executable('sup-test', sup_test_sources,
   dependencies: sup_test_deps,
+  c_args: ['-g'],
   install: true,
 )
 
