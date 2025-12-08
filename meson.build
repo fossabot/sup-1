@@ -9,4 +9,7 @@ project('sup', ['cpp'],
 
 
 subdir('sup')
-subdir('test')
+
+if get_option('build_tests')
+	subdir('test')
+endif

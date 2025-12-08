@@ -40,7 +40,8 @@
                 }
             ],
             "config-opts" : [
-                "--libdir=lib"
+                "--libdir=lib",
+                "-Dbuild_tests=true"
             ]
         }
     ],
