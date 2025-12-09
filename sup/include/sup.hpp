@@ -10,14 +10,14 @@ class Sup {
 
 	void addChild(Sup *c);
 public:
-	virtual std::optional<std::string> name() {return std::nullopt;}
+	virtual std::optional<std::string> name() const {return std::nullopt;}
 	Sup(Sup *parent = nullptr);
 	virtual ~Sup();
 
-	inline Sup *parent() {return _parent;};
+	inline Sup *parent() const {return _parent;};
 
 	template <typename T = Sup>
-	auto children(bool recursive = false) -> std::vector<T*> {
+	auto children(bool recursive = false) const -> std::vector<T*> {
 		std::vector<T*> result;
 		for(auto c : _children) {
 			auto r = dynamic_cast<T*>(c);
@@ -31,7 +31,7 @@ public:
 	}
 
 	template <typename T>
-	auto findChild(std::optional<std::string> name = std::nullopt, bool recursive = true) -> T* {
+	auto findChild(std::optional<std::string> name = std::nullopt, bool recursive = true) const -> T* {
 		auto ch = children<T>(recursive);
 		auto el = std::find_if(ch.begin(), ch.end(), [name](auto c) {return !name || name == c->name();});
 		if(el != ch.end()) return *el;
@@ -39,7 +39,7 @@ public:
 	}
 
 	template <typename T>
-	auto findParent(std::optional<std::string> name = std::nullopt) -> T* {
+	auto findParent(std::optional<std::string> name = std::nullopt) const -> T* {
 		auto p = _parent;
 		while(p) {
 			auto found = dynamic_cast<T*>(p);

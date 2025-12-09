@@ -17,7 +17,7 @@ public:
 class Named : public Sup {
 public:
     Named(Sup *p) : Sup(p) {}
-    virtual optional<string> name() {return "Named";}
+    virtual optional<string> name() const {return "Named";}
 };
 
 TEST_CASE ("Sanity") {
