@@ -13,6 +13,14 @@ Sup::~Sup() {
     for (auto c : _children) {
         delete c;
     }
+
+    for (auto cb : _managed) {
+        cb();
+    }
+}
+
+void Sup::manage(std::function<void()> freeCb) {
+    _managed.push_back(freeCb);
 }
 
 void Sup::addChild(Sup *c) {

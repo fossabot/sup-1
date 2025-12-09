@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <sup.hpp>
+#include <cstdlib>
 using namespace std;
 
 class HelloWorld : public Sup {
@@ -37,6 +38,15 @@ TEST_CASE ("Basic", "[sup]") {
 
     REQUIRE(app.parent() == nullptr);
     REQUIRE(app.findChild<HelloWorld>()->parent() == &app);
+}
+
+TEST_CASE("Managed", "[manage]") {
+    Sup app;
+    char *c = (char*)malloc(sizeof(char));
+    *c = 'a';
+    REQUIRE(*c == 'a');
+    app.manage([&c](){free(c);});
+    // if it didn't work, the test will leak memory. check it with valgrind.
 }
 
 TEST_CASE("Recursive", "[recursive]") {

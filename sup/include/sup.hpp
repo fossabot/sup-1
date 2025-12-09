@@ -3,16 +3,20 @@
 #include <string>
 #include <optional>
 #include <algorithm>
+#include <functional>
 
 class Sup {
 	Sup *_parent;
 	std::vector<Sup *> _children;
+	std::vector<std::function<void()>> _managed;
 
 	void addChild(Sup *c);
 public:
 	virtual std::optional<std::string> name() const {return std::nullopt;}
 	Sup(Sup *parent = nullptr);
 	virtual ~Sup();
+
+	void manage(std::function<void()> freeCb);
 
 	inline Sup *parent() const {return _parent;};
 
