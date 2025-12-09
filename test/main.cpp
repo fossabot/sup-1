@@ -56,3 +56,12 @@ TEST_CASE("Named", "[named]") {
     REQUIRE(app.findChild<Named>("Named")->name() == "Named");
     REQUIRE(app.findChild<Named>("Invalid") == nullptr);
 }
+
+TEST_CASE("Find Parent", "[findParent]") {
+    Sup app;
+
+    new Named(new FooBar(new HelloWorld(&app)));
+
+    REQUIRE(app.findChild<Named>()->findParent<FooBar>() == app.findChild<FooBar>());
+    REQUIRE(app.findChild<Named>()->findParent<HelloWorld>() == app.findChild<HelloWorld>());
+}

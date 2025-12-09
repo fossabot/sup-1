@@ -33,8 +33,19 @@ public:
 	template <typename T>
 	auto findChild(std::optional<std::string> name = std::nullopt, bool recursive = true) -> T* {
 		auto ch = children<T>(recursive);
-		auto el = std::find_if(ch.begin(), ch.end(), [name](auto c) {return !(name || c->name()) || name == c->name();});
+		auto el = std::find_if(ch.begin(), ch.end(), [name](auto c) {return !name || name == c->name();});
 		if(el != ch.end()) return *el;
+		return nullptr;
+	}
+
+	template <typename T>
+	auto findParent(std::optional<std::string> name = std::nullopt) -> T* {
+		auto p = _parent;
+		while(p) {
+			auto found = dynamic_cast<T*>(p);
+			if(found && (!name || name == found->name())) return found;
+			p = p->_parent;
+		}
 		return nullptr;
 	}
 };
