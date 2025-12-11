@@ -12,7 +12,7 @@ Sup::Sup(Sup *parent)
 Sup::~Sup() {
     if(_parent) _parent->remove(this);
     for (auto c : _children) {
-        if(c != this) delete c;
+        if(c && c != this) delete c;
     }
 
     for (auto cb : _managed) {
