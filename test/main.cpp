@@ -40,6 +40,18 @@ TEST_CASE ("Basic", "[sup]") {
     REQUIRE(app.findChild<HelloWorld>()->parent() == &app);
 }
 
+TEST_CASE ("Delete", "[delete]") {
+    Sup app;
+
+    auto hw = new HelloWorld(&app);
+
+    REQUIRE(app.findChild<HelloWorld>()->hello() == "hello world");
+
+    delete hw;
+
+    REQUIRE(app.findChild<HelloWorld>() == nullptr);
+}
+
 TEST_CASE("Managed", "[manage]") {
     Sup app;
     char *c = (char*)malloc(sizeof(char));

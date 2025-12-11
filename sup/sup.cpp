@@ -10,6 +10,7 @@ Sup::Sup(Sup *parent)
 }
 
 Sup::~Sup() {
+    if(_parent) erase(_parent->_children, this);
     for (auto c : _children) {
         delete c;
     }
