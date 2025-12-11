@@ -10,8 +10,7 @@ Sup::Sup(Sup *parent)
 }
 
 Sup::~Sup() {
-    if(_parent) erase(_parent->_children, this);
-
+    if(_parent) _parent->remove(this);
     for (auto c : _children) {
         if(c != this) delete c;
     }
@@ -23,6 +22,10 @@ Sup::~Sup() {
 
 void Sup::manage(std::function<void()> freeCb) {
     _managed.push_back(freeCb);
+}
+
+void Sup::remove(Sup *c) {
+    erase(_children, c);
 }
 
 void Sup::addChild(Sup *c) {

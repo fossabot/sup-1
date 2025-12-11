@@ -18,6 +18,8 @@ public:
 
 	void manage(std::function<void()> freeCb);
 
+	void remove(Sup *);
+
 	inline Sup *parent() const {return _parent;};
 
 	template <typename T = Sup>
