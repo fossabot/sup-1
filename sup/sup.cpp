@@ -29,5 +29,6 @@ void Sup::remove(Sup *c) {
 }
 
 void Sup::addChild(Sup *c) {
+    c->_parent = this;
     _children.push_back(c);
 }

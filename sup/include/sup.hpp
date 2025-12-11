@@ -10,7 +10,6 @@ class Sup {
 	std::vector<Sup *> _children;
 	std::vector<std::function<void()>> _managed;
 
-	void addChild(Sup *c);
 public:
 	virtual std::optional<std::string> name() const {return std::nullopt;}
 	Sup(Sup *parent = nullptr);
@@ -18,6 +17,7 @@ public:
 
 	void manage(std::function<void()> freeCb);
 
+	void addChild(Sup *);
 	void remove(Sup *);
 
 	inline Sup *parent() const {return _parent;};
