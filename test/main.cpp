@@ -36,7 +36,7 @@ TEST_CASE ("Basic", "[sup]") {
     new Named(new FooBar(&app));
     REQUIRE(app.children(true).size() == 3);
 
-    REQUIRE(app.parent() == nullptr);
+    REQUIRE(app.parent()->name() == "yggdrasil");
     REQUIRE(app.findChild<HelloWorld>()->parent() == &app);
 }
 

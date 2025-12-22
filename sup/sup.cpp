@@ -1,24 +1,20 @@
 #include <sup.hpp>
 #include <set>
+#include <memory>
 using namespace std;
 
 static set<Sup *> __safe_ptrs;
-
-class _PtrCleanup {
-    ~_PtrCleanup() {
-        for (auto p : __safe_ptrs) {
-            __safe_ptrs.erase(p);
-            if(p) delete p;
-        }
-    }
-    static _PtrCleanup _;
+class Yggdrasil : public Sup {
+public:
+    virtual optional<string> name() const {return "yggdrasil";}
+    static Yggdrasil __;
 };
-
-_PtrCleanup _PtrCleanup::_;
+Yggdrasil Yggdrasil::__;
 
 Sup::Sup(Sup *parent)
     : _parent(parent)
 {
+    if(!_parent) _parent = &Yggdrasil::__;
     __safe_ptrs.insert(this);
     if(parent) {
         parent->addChild(this);
@@ -26,12 +22,12 @@ Sup::Sup(Sup *parent)
 }
 
 Sup::~Sup() {
-    __safe_ptrs.erase(this);
+    __safe_ptrs.extract(this);
     if(_parent) _parent->remove(this);
     for (auto c : _children) {
         if(c && c != this && __safe_ptrs.contains(c)) {
+            __safe_ptrs.extract(c);
             delete c;
-            __safe_ptrs.erase(c);
         }
     }
 
